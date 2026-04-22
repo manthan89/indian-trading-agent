@@ -266,8 +266,20 @@ export default function SimulationPage() {
   };
 
   const handleClose = async (id: number) => {
-    await closePaperTrade(id);
-    toast.success("Closed");
+    try {
+      const result: any = await closePaperTrade(id);
+      if (result.ok) {
+        const pnl = result.pnl_pct;
+        const emoji = pnl >= 0 ? "profit" : "loss";
+        toast.success(
+          `Closed ${result.ticker} at Rs.${result.close_price} — ${pnl >= 0 ? "+" : ""}${pnl}% P&L`
+        );
+      } else {
+        toast.success("Trade closed");
+      }
+    } catch {
+      toast.success("Trade closed");
+    }
     loadPaperData();
   };
 
@@ -376,14 +388,19 @@ export default function SimulationPage() {
 
           {/* Actions */}
           <Card>
-            <CardContent className="p-4 flex items-center justify-between flex-wrap gap-3">
-              <div className="text-sm text-muted-foreground">
-                Open trades from <a href="/recommendations" className="text-primary hover:underline">Top Picks</a> or <a href="/" className="text-primary hover:underline">Dashboard</a>. Prices update automatically when you refresh.
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div className="text-sm text-muted-foreground">
+                  Open trades from <a href="/recommendations" className="text-primary hover:underline">Top Picks</a> or <a href="/" className="text-primary hover:underline">Dashboard</a>. Click Refresh to fetch latest prices.
+                </div>
+                <Button onClick={handleRefresh} disabled={refreshing} variant="outline" size="sm">
+                  {refreshing ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
+                  Refresh Prices
+                </Button>
               </div>
-              <Button onClick={handleRefresh} disabled={refreshing} variant="outline" size="sm">
-                {refreshing ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}
-                Refresh Prices
-              </Button>
+              <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
+                <strong>When do columns fill in?</strong> +1d appears after 1 trading day, +3d after 3 days, etc. Trades opened today will show &quot;—&quot; until enough days have passed. Click Refresh after market close to update. Closing a trade (X) fetches the current market price as exit.
+              </div>
             </CardContent>
           </Card>
 

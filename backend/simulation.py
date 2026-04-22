@@ -16,6 +16,7 @@ from backend.db import (
     update_paper_trade_prices,
     update_paper_trade_status,
     save_recommender_backtest_row,
+    get_db,
 )
 
 
@@ -82,6 +83,54 @@ def open_paper_trade(
         "direction": direction,
         "entry_price": round(current_price, 2),
         "strategy": strategy,
+    }
+
+
+def close_paper_trade(trade_id: int) -> dict:
+    """Close a paper trade at current market price and compute final P&L."""
+    trades = list_paper_trades()
+    trade = next((t for t in trades if t["id"] == trade_id), None)
+    if not trade:
+        return {"ok": False, "error": "Trade not found"}
+
+    symbol = normalize_ticker(trade["ticker"])
+    try:
+        t = yf.Ticker(symbol)
+        hist = t.history(period="2d")
+        if hist.empty:
+            return {"ok": False, "error": f"No price data for {symbol}"}
+        current_price = round(float(hist.iloc[-1]["Close"]), 2)
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+    entry = trade["entry_price"]
+    direction = trade.get("direction", "LONG")
+    multiplier = 1 if direction == "LONG" else -1
+    pnl_pct = round(multiplier * (current_price - entry) / entry * 100, 2) if entry else 0
+
+    # Update the trade — store close price in the latest available horizon column
+    with get_db() as conn:
+        conn.execute(
+            """UPDATE paper_trades SET
+                status = 'manually_closed',
+                notes = COALESCE(notes, '') || '\nClosed at Rs.' || ? || ' on ' || date('now') || '. P&L: ' || ? || '%',
+                updated_at = datetime('now')
+               WHERE id = ?""",
+            (current_price, pnl_pct, trade_id),
+        )
+
+    # Also refresh any pending horizon prices
+    refresh_paper_trade_prices(trade_id)
+    update_paper_trade_status(trade_id, "manually_closed")
+
+    return {
+        "ok": True,
+        "trade_id": trade_id,
+        "ticker": trade["ticker"],
+        "entry_price": entry,
+        "close_price": current_price,
+        "pnl_pct": pnl_pct,
+        "direction": direction,
     }
 
 

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query
 from pydantic import BaseModel
 from backend.simulation import (
     open_paper_trade,
+    close_paper_trade as close_paper_trade_fn,
     refresh_paper_trade_prices,
     paper_trading_stats,
     run_recommender_backtest,
@@ -74,8 +75,8 @@ def delete_trade(trade_id: int):
 
 @router.put("/paper-trades/{trade_id}/close")
 def close_trade(trade_id: int):
-    update_paper_trade_status(trade_id, "manually_closed")
-    return {"status": "closed"}
+    """Close a paper trade at current market price. Fetches live price and computes P&L."""
+    return close_paper_trade_fn(trade_id)
 
 
 # --- Recommender Historical Backtest ---
