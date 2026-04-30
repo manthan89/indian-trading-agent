@@ -6,10 +6,10 @@ DEFAULT_CONFIG = {
     "project_dir": os.path.abspath(os.path.join(os.path.dirname(__file__), ".")),
     "results_dir": os.getenv("TRADINGAGENTS_RESULTS_DIR", os.path.join(_TRADINGAGENTS_HOME, "logs")),
     "data_cache_dir": os.getenv("TRADINGAGENTS_CACHE_DIR", os.path.join(_TRADINGAGENTS_HOME, "cache")),
-    # LLM settings
-    "llm_provider": "anthropic",
-    "deep_think_llm": "claude-sonnet-4-20250514",
-    "quick_think_llm": "claude-haiku-4-5-20251001",
+    # LLM settings (Ollama with Qwen3.5-250k:tools)
+    "llm_provider": "ollama",
+    "deep_think_llm": "qwen3.5-250k:tools",
+    "quick_think_llm": "qwen3.5-250k:tools",
     # Provider-specific thinking configuration
     "google_thinking_level": None,
     "openai_reasoning_effort": None,

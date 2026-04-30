@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = "http://100.67.246.96:8000";
 
 async function fetchAPI<T>(path: string, options?: RequestInit): Promise<T> {
   let res: Response;
