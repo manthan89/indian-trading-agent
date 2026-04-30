@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { Toaster } from "sonner";
 import "@/app/globals.css";
 
 const openSans = Open_Sans({
@@ -21,7 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${openSans.variable} h-full antialiased`}>
       <body className="min-h-full">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );
