@@ -3,8 +3,7 @@
 import uuid
 import threading
 import asyncio
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException, Depends
-from pydantic import BaseModel
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException, Depends, Request
 from typing import Optional
 from backend.ws import manager
 from backend.db import (
@@ -20,6 +19,19 @@ from tradingagents.utils.ticker import normalize_ticker
 from tradingagents.default_config import DEFAULT_CONFIG
 
 router = APIRouter(prefix="/api/backtest", tags=["backtest"])
+
+_tasks: dict = {}
+
+
+async def get_user(request: Request) -> TokenUser:
+    """Get current user or return local user for dev mode."""
+    auth = request.headers.get("Authorization", "")
+    if not auth:
+        return TokenUser(id="local", email="dev@local", tier="free", sub_status="active")
+    user = verify_jwt(auth)
+    if not user:
+        return TokenUser(id="local", email="dev@local", tier="free", sub_status="active")
+    return user
 
 
 class BacktestRequest(BaseModel):
@@ -112,8 +124,14 @@ def _run_backtest_thread(backtest_id: str, req: BacktestRequest):
 
 
 @router.post("/run")
-def start_backtest(req: BacktestRequest):
+async def start_backtest(req: BacktestRequest, request: Request):
     """Start a backtest. Returns backtest_id for WebSocket streaming."""
+    # Check tier (backtest requires Pro)
+    user = await get_user(request)
+    allowed, error_msg = check_subscription(user, "backtest")
+    if not allowed:
+        raise HTTPException(status_code=403, detail=error_msg)
+    
     backtest_id = str(uuid.uuid4())[:8]
 
     thread = threading.Thread(
