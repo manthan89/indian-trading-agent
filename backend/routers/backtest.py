@@ -3,7 +3,7 @@
 import uuid
 import threading
 import asyncio
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional
 from backend.ws import manager
@@ -15,6 +15,7 @@ from backend.db import (
     get_backtest_history,
 )
 from backend.backtest_engine import run_backtest, get_trading_dates
+from backend.auth_middleware import verify_jwt, check_subscription, TokenUser
 from tradingagents.utils.ticker import normalize_ticker
 from tradingagents.default_config import DEFAULT_CONFIG
 

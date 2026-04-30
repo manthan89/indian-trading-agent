@@ -4,10 +4,11 @@ import asyncio
 import uuid
 import time
 import threading
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, BackgroundTasks
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, BackgroundTasks, HTTPException, Depends, Request
 from backend.models import AnalysisRequest, AnalysisResponse
 from backend.ws import manager
 from backend.db import save_analysis, get_analysis, get_analysis_history, update_analysis_pnl
+from backend.auth_middleware import verify_jwt, check_subscription, TokenUser
 from pydantic import BaseModel as PydanticBaseModel
 from tradingagents.utils.ticker import normalize_ticker
 from tradingagents.default_config import DEFAULT_CONFIG
@@ -16,6 +17,28 @@ router = APIRouter(prefix="/api/analysis", tags=["analysis"])
 
 # In-memory task state
 _tasks: dict[str, dict] = {}
+
+
+async def get_user(request: Request) -> TokenUser:
+    """Get current user or return local user for dev mode."""
+    auth = request.headers.get("Authorization", "")
+    if not auth:
+        return TokenUser(id="local", email="dev@local", tier="free", sub_status="active")
+    user = verify_jwt(auth)
+    if not user:
+        return TokenUser(id="local", email="dev@local", tier="free", sub_status="active")
+    return user
+
+
+def require_tier(feature: str):
+    """Dependency factory: check feature access for a tier."""
+    async def _check(request: Request) -> TokenUser:
+        user = await get_user(request)
+        allowed, error = check_subscription(user, feature)
+        if not allowed:
+            raise HTTPException(status_code=403, detail=error)
+        return user
+    return _check
 
 
 def _run_analysis_sync(task_id: str, ticker: str, trade_date: str, config: dict, selected_analysts: list[str] = None):
@@ -179,8 +202,14 @@ def _run_analysis_sync(task_id: str, ticker: str, trade_date: str, config: dict,
 
 
 @router.post("/run")
-def run_analysis(req: AnalysisRequest):
+async def run_analysis(req: AnalysisRequest, request: Request):
     """Start a new analysis. Returns task_id for WebSocket streaming."""
+    # Check tier (deep_analysis requires Pro)
+    user = await get_user(request)
+    allowed, error_msg = check_subscription(user, "deep_analysis")
+    if not allowed:
+        raise HTTPException(status_code=403, detail=error_msg)
+
     task_id = str(uuid.uuid4())[:8]
     ticker = normalize_ticker(req.ticker)
 

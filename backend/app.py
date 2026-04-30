@@ -2,6 +2,7 @@
 
 import sys
 import os
+from typing import Optional
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -9,11 +10,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"), override=True)
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from backend.db import ensure_db
-from backend.routers import market_data, analysis, watchlist, backtest, strategies, scanner, performance, recommender, settings as settings_router, news as news_router, simulation as simulation_router, insights as insights_router
+from backend.auth_middleware import verify_jwt, check_subscription, TokenUser
+from backend.routers import market_data, analysis, watchlist, backtest, strategies, scanner, performance, recommender, settings as settings_router, news as news_router, simulation as simulation_router, insights as insights_router, auth_
 from backend.settings_manager import load_api_keys_into_env, apply_llm_config_to_default
 
 
@@ -42,6 +44,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_.router)
 app.include_router(market_data.router)
 app.include_router(analysis.router)
 app.include_router(watchlist.router)
@@ -73,3 +76,30 @@ def get_config():
         "max_open_positions",
     ]
     return {k: DEFAULT_CONFIG.get(k) for k in safe_keys}
+
+
+# --- Auth Dependency ---
+async def get_current_user(request: Request) -> Optional[TokenUser]:
+    """Extract user from JWT token in Authorization header."""
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        return None
+    return verify_jwt(auth_header)
+
+
+def require_user(user: TokenUser = Depends(get_current_user)) -> TokenUser:
+    """Require authenticated user for protected routes."""
+    if user is None:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    return user
+
+
+def require_tier(feature: str, user: TokenUser = Depends(get_current_user)) -> TokenUser:
+    """Require specific tier for a feature."""
+    if user is None:
+        # Allow free tier for unauthenticated (dev mode)
+        return TokenUser(id="local", email="dev@local", tier="free", sub_status="active")
+    allowed, error = check_subscription(user, feature)
+    if not allowed:
+        raise HTTPException(status_code=403, detail=error)
+    return user
