@@ -23,10 +23,6 @@ services:
         sync: false
       # Supabase
       - key: SUPABASE_URL
-        fromDatabase:
-          name: supabase-db
-          property: connectionString
-        # fallback: hardcode Supabase connection string
         value: https://vnupihfbbtvbxsdvxzts.supabase.co
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
