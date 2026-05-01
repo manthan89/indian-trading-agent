@@ -179,13 +179,13 @@ export default function InsightsPage() {
               You have {data?.total_trades || 0} closed trades so far. Aim for 10-20 to start seeing reliable patterns.
             </p>
             <div className="flex gap-2 justify-center flex-wrap">
-              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/recommendations")}>
+              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/app/recommendations")}>
                 Open Top Picks
               </Button>
-              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/simulation")}>
+              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/app/simulation")}>
                 View Paper Trades
               </Button>
-              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/history")}>
+              <Button variant="outline" size="sm" onClick={() => (window.location.href = "/app/history")}>
                 Log P&L
               </Button>
             </div>

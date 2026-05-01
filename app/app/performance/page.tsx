@@ -326,7 +326,7 @@ export default function PerformancePage() {
         <NextStep
           title="Apply these insights to today's trades"
           description="Now that you know which strategies work, use Recommendations to find stocks triggering those signals today"
-          href="/recommendations"
+          href="/app/recommendations"
           buttonText="See Top Picks"
           icon={Sparkles}
         />

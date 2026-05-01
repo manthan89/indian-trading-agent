@@ -199,7 +199,7 @@ function AnalysisPageInner() {
         <NextStep
           title="Track this trade"
           description="After you take the trade and it closes, log your actual P&L in My Trades to build your track record"
-          href="/history"
+          href="/app/history"
           buttonText="My Trades"
           icon={History}
         />

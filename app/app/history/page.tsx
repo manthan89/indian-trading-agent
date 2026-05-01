@@ -165,7 +165,7 @@ export default function HistoryPage() {
                         <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                           {tab.emptyMsg}
                           {tab.key === "all" && analyses.length === 0 && (
-                            <> <Link href="/analysis" className="text-primary hover:underline">Run your first analysis</Link></>
+                             <> <Link href="/app/analysis" className="text-primary hover:underline">Run your first analysis</Link></>
                           )}
                         </TableCell>
                       </TableRow>
@@ -207,7 +207,7 @@ export default function HistoryPage() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <Link href={`/analysis/${a.task_id}`} className="text-xs text-primary hover:underline">
+                               <Link href={`/app/analysis/${a.task_id}`} className="text-xs text-primary hover:underline">
                                 View
                               </Link>
                               <Button

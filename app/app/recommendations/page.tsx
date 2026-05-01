@@ -126,7 +126,7 @@ function RecommendationCard({ rec }: { rec: any }) {
             >
               <FlaskConical className="h-3 w-3 mr-1" /> Track
             </Button>
-            <Link href={`/analysis?ticker=${rec.ticker}`} prefetch={true}>
+            <Link href={`/app/analysis?ticker=${rec.ticker}`} prefetch={true}>
               <Button size="sm" variant="outline" title="Run full AI analysis (costs ~Rs.15-25, takes 1-3 min)">
                 <Target className="h-3 w-3 mr-1" /> AI Analyze
               </Button>
@@ -345,7 +345,7 @@ export default function RecommendationsPage() {
         <NextStep
           title="Deep-analyze your top pick with AI"
           description="Click 'AI Analyze' on a Strong Buy for entry/SL/target from the 10-agent AI pipeline (~Rs.15-25)"
-          href="/analysis"
+          href="/app/analysis"
           buttonText="Open Analysis"
           icon={Search}
         />

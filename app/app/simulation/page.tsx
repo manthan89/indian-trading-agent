@@ -391,7 +391,7 @@ export default function SimulationPage() {
             <CardContent className="p-4 space-y-2">
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div className="text-sm text-muted-foreground">
-                  Open trades from <a href="/recommendations" className="text-primary hover:underline">Top Picks</a> or <a href="/" className="text-primary hover:underline">Dashboard</a>. Click Refresh to fetch latest prices.
+                  Open trades from <a href="/app/recommendations" className="text-primary hover:underline">Top Picks</a> or <a href="/app" className="text-primary hover:underline">Dashboard</a>. Click Refresh to fetch latest prices.
                 </div>
                 <Button onClick={handleRefresh} disabled={refreshing} variant="outline" size="sm">
                   {refreshing ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <RefreshCw className="h-3 w-3 mr-1" />}

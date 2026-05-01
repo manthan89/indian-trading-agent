@@ -242,7 +242,7 @@ export default function ScannerPage() {
                               </Badge>
                             </TableCell>
                              <TableCell>
-                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
+                               <Link href={`/app/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
                                  Analyze
                                </Link>
                              </TableCell>
@@ -297,7 +297,7 @@ export default function ScannerPage() {
                              <TableCell className="text-right font-mono text-muted-foreground">{(r.avg_volume / 100000).toFixed(1)}L</TableCell>
                              <TableCell className="text-right font-mono font-semibold text-blue-600">{r.volume_ratio}x</TableCell>
                              <TableCell>
-                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
+                               <Link href={`/app/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
                                  Analyze
                                </Link>
                              </TableCell>
@@ -348,19 +348,19 @@ export default function ScannerPage() {
                                </Badge>
                              </TableCell>
                              <TableCell>
-                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
-                                Analyze
-                              </Link>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+<Link href={`/app/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
+                                 Analyze
+                               </Link>
+                             </TableCell>
+                           </TableRow>
+                         ))}
+                       </TableBody>
+                     </Table>
+                   </ScrollArea>
+                 </CardContent>
+               </Card>
+             </TabsContent>
+           </Tabs>
         </>
       )}
 

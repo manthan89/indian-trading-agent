@@ -16,7 +16,7 @@ const strategies = [
     borderColor: "border-blue-200",
     tags: ["S/R Levels", "Pivot Points", "Intraday"],
     cost: "Free",
-    href: "/strategies/support-resistance",
+    href: "/app/strategies/support-resistance",
   },
   {
     id: "cyclical",
@@ -28,7 +28,7 @@ const strategies = [
     borderColor: "border-purple-200",
     tags: ["Seasonality", "Sector Rotation", "Day-of-Week"],
     cost: "Free",
-    href: "/strategies/cyclical",
+    href: "/app/strategies/cyclical",
   },
   {
     id: "momentum",
@@ -40,7 +40,7 @@ const strategies = [
     borderColor: "border-orange-200",
     tags: ["Gap", "Volume", "Breakout"],
     cost: "Free (scan) + API (analysis)",
-    href: "/scanner",
+    href: "/app/scanner",
   },
   {
     id: "ai-analysis",
