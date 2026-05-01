@@ -12,7 +12,7 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   title: "Indian Trading Agent",
-  description: "AI-powered short-term trading decisions for NSE/BSE",
+  description: "AI-powered multi-agent trading system for Indian markets (v2026-05-01)",
 };
 
 export default function RootLayout({

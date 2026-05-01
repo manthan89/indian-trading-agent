@@ -15,7 +15,10 @@ export async function middleware(request: NextRequest) {
 
   const isPublic = publicRoutes.some((route) => pathname === route || pathname.startsWith(route + "/"));
   if (isPublic) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Prevent caching of HTML pages
+    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    return response;
   }
 
   // Protected routes — require auth
