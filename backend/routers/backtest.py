@@ -5,6 +5,7 @@ import threading
 import asyncio
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException, Depends, Request
 from typing import Optional
+from pydantic import BaseModel
 from backend.ws import manager
 from backend.db import (
     save_backtest_run,
