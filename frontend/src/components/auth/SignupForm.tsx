@@ -39,7 +39,7 @@ export function SignupForm() {
     if (data.user) {
       setUser(data.user);
       toast.success("Account created! Check your email to verify.");
-      router.push("/dashboard");
+      router.push("/app");
       router.refresh();
     } else {
       toast.success("Check your email to confirm your account!");

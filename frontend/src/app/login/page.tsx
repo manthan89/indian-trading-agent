@@ -3,6 +3,11 @@ export const dynamic = "force-dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "@/components/auth/LoginForm";
 import Link from "next/link";
+import { Suspense } from "react";
+
+function LoginFormWrapper() {
+  return <LoginForm />;
+}
 
 export default function LoginPage() {
   return (
@@ -25,7 +30,9 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LoginForm />
+            <Suspense fallback={<div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />}>
+              <LoginFormWrapper />
+            </Suspense>
           </CardContent>
         </Card>
 

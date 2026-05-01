@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAuthStore } from "@/lib/store-auth";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const { setUser } = useAuthStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -33,7 +34,8 @@ export function LoginForm() {
 
     setUser(data.user);
     toast.success("Welcome back!");
-    router.push("/dashboard");
+    const redirect = searchParams.get("redirect") || "/app";
+    router.push(redirect);
     router.refresh();
   };
 
