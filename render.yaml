@@ -1,0 +1,44 @@
+# render.yaml — Render Blueprints for Indian Trading Agent Backend
+# Docs: https://render.com/docs/blueprint-spec
+
+# ----------------------------------------
+# Web Service: FastAPI Backend
+# ----------------------------------------
+services:
+  - type: web
+    name: indian-trading-agent
+    runtime: python
+    region: singapore  # closest to India
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      # Groq LLM (set via dashboard — do not commit keys)
+      - key: GROQ_API_KEY
+        sync: false
+      # Supabase
+      - key: SUPABASE_URL
+        fromDatabase:
+          name: supabase-db
+          property: connectionString
+        # fallback: hardcode Supabase connection string
+        value: https://vnupihfbbtvbxsdvxzts.supabase.co
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      # Razorpay
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      # Trading Agent
+      - key: TRADINGAGENTS_HOME
+        value: /var/data/tradingagents
