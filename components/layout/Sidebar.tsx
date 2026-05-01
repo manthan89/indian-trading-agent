@@ -33,38 +33,38 @@ type NavGroup = {
 const navGroups: NavGroup[] = [
   {
     items: [
-      { href: "/", label: "Today", icon: Home, hint: "Your daily workflow" },
+      { href: "/app", label: "Today", icon: Home, hint: "Your daily workflow" },
     ],
   },
   {
     title: "DISCOVER",
     items: [
-      { href: "/recommendations", label: "Top Picks", icon: Sparkles, hint: "AI-free recommendations" },
-      { href: "/scanner", label: "Market Scan", icon: Radar, hint: "Gap / Volume / Breakout" },
-      { href: "/strategies", label: "Strategies", icon: Target, hint: "S/R, Cyclical patterns" },
-      { href: "/news", label: "News Feed", icon: Newspaper, hint: "RSS + customizable" },
+      { href: "/app/recommendations", label: "Top Picks", icon: Sparkles, hint: "AI-free recommendations" },
+      { href: "/app/scanner", label: "Market Scan", icon: Radar, hint: "Gap / Volume / Breakout" },
+      { href: "/app/strategies", label: "Strategies", icon: Target, hint: "S/R, Cyclical patterns" },
+      { href: "/app/news", label: "News Feed", icon: Newspaper, hint: "RSS + customizable" },
     ],
   },
   {
     title: "ANALYZE",
     items: [
-      { href: "/analysis", label: "Deep Analysis", icon: Search, hint: "AI-powered (paid)" },
-      { href: "/charts", label: "Charts", icon: CandlestickChart, hint: "Candlestick charts" },
+      { href: "/app/analysis", label: "Deep Analysis", icon: Search, hint: "AI-powered (paid)" },
+      { href: "/app/charts", label: "Charts", icon: CandlestickChart, hint: "Candlestick charts" },
     ],
   },
   {
     title: "VALIDATE",
     items: [
-      { href: "/performance", label: "Performance", icon: Award, hint: "Strategy win rates" },
-      { href: "/simulation", label: "Simulation", icon: FlaskConical, hint: "Paper trade + backtest" },
-      { href: "/insights", label: "Learning Insights", icon: Brain, hint: "What works for YOU" },
-      { href: "/backtest", label: "AI Backtest", icon: FlaskConical, hint: "AI on past dates (paid)" },
-      { href: "/history", label: "My Trades", icon: History, hint: "Real trades & P&L" },
+      { href: "/app/performance", label: "Performance", icon: Award, hint: "Strategy win rates" },
+      { href: "/app/simulation", label: "Simulation", icon: FlaskConical, hint: "Paper trade + backtest" },
+      { href: "/app/insights", label: "Learning Insights", icon: Brain, hint: "What works for YOU" },
+      { href: "/app/backtest", label: "AI Backtest", icon: FlaskConical, hint: "AI on past dates (paid)" },
+      { href: "/app/history", label: "My Trades", icon: History, hint: "Real trades & P&L" },
     ],
   },
   {
     items: [
-      { href: "/settings", label: "Settings", icon: Settings },
+      { href: "/app/settings", label: "Settings", icon: Settings },
     ],
   },
 ];
