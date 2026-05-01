@@ -238,6 +238,7 @@ export default function LandingPage() {
                 </ul>
                 <Link
                   href={tier.href}
+                  prefetch={true}
                   className={`block w-full h-10 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${
                     tier.highlight
                       ? "bg-green-500 hover:bg-green-600 text-white"

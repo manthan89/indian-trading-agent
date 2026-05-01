@@ -241,114 +241,114 @@ export default function ScannerPage() {
                                 {r.filled ? "Filled" : "Open"}
                               </Badge>
                             </TableCell>
-                            <TableCell>
-                              <Link href={`/analysis?ticker=${r.ticker}`} className="text-xs text-primary hover:underline">
-                                Analyze
-                              </Link>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                             <TableCell>
+                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
+                                 Analyze
+                               </Link>
+                             </TableCell>
+                           </TableRow>
+                         ))}
+                       </TableBody>
+                     </Table>
+                   </ScrollArea>
+                 </CardContent>
+               </Card>
+             </TabsContent>
 
-            {/* Volume Spike Results */}
-            <TabsContent value="volume">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm">
-                    Stocks with volume &gt;{volumeMultiplier}x average
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <ScrollArea className="h-[400px]">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Ticker</TableHead>
-                          <TableHead>Direction</TableHead>
-                          <TableHead className="text-right">Price</TableHead>
-                          <TableHead className="text-right">Change %</TableHead>
-                          <TableHead className="text-right">Volume</TableHead>
-                          <TableHead className="text-right">Avg Volume</TableHead>
-                          <TableHead className="text-right">Ratio</TableHead>
-                          <TableHead></TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {volumeResults.length === 0 ? (
-                          <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No volume spikes found</TableCell></TableRow>
-                        ) : volumeResults.map((r: any) => (
-                          <TableRow key={r.ticker}>
-                            <TableCell className="font-sans font-medium">{r.ticker}</TableCell>
-                            <TableCell>
-                              <Badge className={r.direction === "BULLISH" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
-                                {r.direction}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right font-sans">₹{r.price}</TableCell>
-                            <TableCell className={`text-right font-sans ${r.change_pct >= 0 ? "text-green-600" : "text-red-600"}`}>
-                              {r.change_pct >= 0 ? "+" : ""}{r.change_pct}%
-                            </TableCell>
-                            <TableCell className="text-right font-sans">{(r.volume / 100000).toFixed(1)}L</TableCell>
-                            <TableCell className="text-right font-sans text-muted-foreground">{(r.avg_volume / 100000).toFixed(1)}L</TableCell>
-                            <TableCell className="text-right font-sans font-semibold text-blue-600">{r.volume_ratio}x</TableCell>
-                            <TableCell>
-                              <Link href={`/analysis?ticker=${r.ticker}`} className="text-xs text-primary hover:underline">
-                                Analyze
-                              </Link>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </TabsContent>
+             {/* Volume Spike Results */}
+             <TabsContent value="volume">
+               <Card>
+                 <CardHeader className="pb-2">
+                   <CardTitle className="text-sm">
+                     Stocks with volume &gt;{volumeMultiplier}x average
+                   </CardTitle>
+                 </CardHeader>
+                 <CardContent className="p-0">
+                   <ScrollArea className="h-[400px]">
+                     <Table>
+                       <TableHeader>
+                         <TableRow>
+                           <TableHead>Ticker</TableHead>
+                           <TableHead>Direction</TableHead>
+                           <TableHead className="text-right">Price</TableHead>
+                           <TableHead className="text-right">Change %</TableHead>
+                           <TableHead className="text-right">Volume</TableHead>
+                           <TableHead className="text-right">Avg Volume</TableHead>
+                           <TableHead className="text-right">Ratio</TableHead>
+                           <TableHead></TableHead>
+                         </TableRow>
+                       </TableHeader>
+                       <TableBody>
+                         {volumeResults.length === 0 ? (
+                           <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No volume spikes found</TableCell></TableRow>
+                         ) : volumeResults.map((r: any) => (
+                           <TableRow key={r.ticker}>
+                             <TableCell className="font-mono font-medium">{r.ticker}</TableCell>
+                             <TableCell>
+                               <Badge className={r.direction === "BULLISH" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
+                                 {r.direction}
+                               </Badge>
+                             </TableCell>
+                             <TableCell className="text-right font-mono">₹{r.price}</TableCell>
+                             <TableCell className={`text-right font-mono ${r.change_pct >= 0 ? "text-green-600" : "text-red-600"}`}>
+                               {r.change_pct >= 0 ? "+" : ""}{r.change_pct}%
+                             </TableCell>
+                             <TableCell className="text-right font-mono">{(r.volume / 100000).toFixed(1)}L</TableCell>
+                             <TableCell className="text-right font-mono text-muted-foreground">{(r.avg_volume / 100000).toFixed(1)}L</TableCell>
+                             <TableCell className="text-right font-mono font-semibold text-blue-600">{r.volume_ratio}x</TableCell>
+                             <TableCell>
+                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
+                                 Analyze
+                               </Link>
+                             </TableCell>
+                           </TableRow>
+                         ))}
+                       </TableBody>
+                     </Table>
+                   </ScrollArea>
+                 </CardContent>
+               </Card>
+             </TabsContent>
 
-            {/* Breakout Results */}
-            <TabsContent value="breakout">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm">
-                    Stocks breaking {breakoutLookback}-day high
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <ScrollArea className="h-[400px]">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Ticker</TableHead>
-                          <TableHead className="text-right">Price</TableHead>
-                          <TableHead className="text-right">Breakout Level</TableHead>
-                          <TableHead className="text-right">Above %</TableHead>
-                          <TableHead className="text-right">Vol Ratio</TableHead>
-                          <TableHead>Vol Confirmed</TableHead>
-                          <TableHead></TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {breakoutResults.length === 0 ? (
-                          <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No breakouts found</TableCell></TableRow>
-                        ) : breakoutResults.map((r: any) => (
-                          <TableRow key={r.ticker}>
-                            <TableCell className="font-sans font-medium">{r.ticker}</TableCell>
-                            <TableCell className="text-right font-sans">₹{r.price}</TableCell>
-                            <TableCell className="text-right font-sans text-muted-foreground">₹{r.breakout_level}</TableCell>
-                            <TableCell className="text-right font-sans text-green-600">+{r.breakout_pct}%</TableCell>
-                            <TableCell className="text-right font-sans">{r.volume_ratio}x</TableCell>
-                            <TableCell>
-                              <Badge variant="outline" className={r.volume_confirmed ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}>
-                                {r.volume_confirmed ? "Yes" : "Weak"}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <Link href={`/analysis?ticker=${r.ticker}`} className="text-xs text-primary hover:underline">
+             {/* Breakout Results */}
+             <TabsContent value="breakout">
+               <Card>
+                 <CardHeader className="pb-2">
+                   <CardTitle className="text-sm">
+                     Stocks breaking {breakoutLookback}-day high
+                   </CardTitle>
+                 </CardHeader>
+                 <CardContent className="p-0">
+                   <ScrollArea className="h-[400px]">
+                     <Table>
+                       <TableHeader>
+                         <TableRow>
+                           <TableHead>Ticker</TableHead>
+                           <TableHead className="text-right">Price</TableHead>
+                           <TableHead className="text-right">Breakout Level</TableHead>
+                           <TableHead className="text-right">Above %</TableHead>
+                           <TableHead className="text-right">Vol Ratio</TableHead>
+                           <TableHead>Vol Confirmed</TableHead>
+                           <TableHead></TableHead>
+                         </TableRow>
+                       </TableHeader>
+                       <TableBody>
+                         {breakoutResults.length === 0 ? (
+                           <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No breakouts found</TableCell></TableRow>
+                         ) : breakoutResults.map((r: any) => (
+                           <TableRow key={r.ticker}>
+                             <TableCell className="font-mono font-medium">{r.ticker}</TableCell>
+                             <TableCell className="text-right font-mono">₹{r.price}</TableCell>
+                             <TableCell className="text-right font-mono text-muted-foreground">₹{r.breakout_level}</TableCell>
+                             <TableCell className="text-right font-mono text-green-600">+{r.breakout_pct}%</TableCell>
+                             <TableCell className="text-right font-mono">{r.volume_ratio}x</TableCell>
+                             <TableCell>
+                               <Badge variant="outline" className={r.volume_confirmed ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}>
+                                 {r.volume_confirmed ? "Yes" : "Weak"}
+                               </Badge>
+                             </TableCell>
+                             <TableCell>
+                               <Link href={`/analysis?ticker=${r.ticker}`} prefetch={true} className="text-xs text-primary hover:underline">
                                 Analyze
                               </Link>
                             </TableCell>

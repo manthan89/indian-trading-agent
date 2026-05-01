@@ -126,7 +126,7 @@ function RecommendationCard({ rec }: { rec: any }) {
             >
               <FlaskConical className="h-3 w-3 mr-1" /> Track
             </Button>
-            <Link href={`/analysis?ticker=${rec.ticker}`}>
+            <Link href={`/analysis?ticker=${rec.ticker}`} prefetch={true}>
               <Button size="sm" variant="outline" title="Run full AI analysis (costs ~Rs.15-25, takes 1-3 min)">
                 <Target className="h-3 w-3 mr-1" /> AI Analyze
               </Button>
