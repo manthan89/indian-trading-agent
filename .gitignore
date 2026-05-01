@@ -4,6 +4,9 @@
 .env
 .env.local
 .env.*.local
+.env.example
+backend/.env.example
+frontend/.env.example
 *.key
 *.pem
 credentials.json

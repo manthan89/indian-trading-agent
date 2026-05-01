@@ -1,56 +1,29 @@
-\# PROJECT\_BRAIN
+# PROJECT_BRAIN
 
+## Reality
+SaaS conversion of Indian Trading Agent. Auth + Payments in progress.
+- Frontend: 28 routes, auth system, Vercel deployed ✅
+- Backend: 14 routers, auth middleware, Render blueprint ready ✅
+- Payments: Razorpay stub only ⚠️
+- Schema: Only profiles table ⚠️
 
+## Mission
+Ship full-stack SaaS with working payments. Never break existing code.
 
-\## Reality
+## Core Rule
+Deploy incrementally. Test before Razorpay. Fix pricing first.
 
-Existing working Indian Trading Agent codebase.
+## Status (2026-05-01)
+| Component | Status |
+|-----------|--------|
+| Landing page | ✅ Working |
+| Auth system | ✅ Working |
+| 13 app pages | ✅ Working |
+| Vercel deploy | ✅ Live |
+| Render deploy | ⏳ Not deployed |
+| Supabase schema | ⚠️ Incomplete |
+| Payments | ⚠️ Stub only |
+| Pricing alignment | ✅ Fixed (2026-05-01) |
 
-
-
-\## Mission
-
-Convert existing product into SaaS without breaking current system.
-
-
-
-\## Core Rule
-
-Never rebuild from zero unless required.
-
-
-
-\## Existing Features
-
-Dashboard
-
-Top Picks
-
-Heatmap
-
-Scanner
-
-Charts
-
-Deep Analysis
-
-
-
-\## New Features Needed
-
-Landing page
-
-Auth
-
-Payments
-
-Alerts
-
-Admin
-
-
-
-\## Next Task
-
-Audit existing repo and map reusable modules.
-
+## Next Action
+Fix pricing mismatch (landing page + types.ts), deploy Render backend, complete Supabase schema, implement Razorpay webhook.

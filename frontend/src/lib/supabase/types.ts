@@ -88,6 +88,6 @@ export const TIER_LIMITS = {
 } as const;
 
 export const PLAN_PRICES = {
-  pro: { monthly: 999, yearly: 9990 },
-  premium: { monthly: 1999, yearly: 19990 },
+  pro: { monthly: 499, yearly: 4990 },
+  premium: { monthly: 999, yearly: 9990 },
 } as const;

@@ -7,75 +7,57 @@
 - **Framework:** Next.js 16.2.3 (App Router, React 19)
 
 ## Live URL
-**https://marketdesk-india-k5pjh6bb5-manthans-projects-bbf5757d.vercel.app**
-
-Production alias: `https://marketdesk-india.vercel.app`
+**https://marketdesk-india.vercel.app**
 
 ## Pages Deployed (19 routes)
 | Route | Type |
 |-------|------|
-| `/` | Static (Landing page) |
-| `/app` | Static (Dashboard) |
-| `/app/analysis` | Static |
-| `/app/analysis/[id]` | Dynamic |
-| `/app/backtest` | Static |
-| `/app/charts` | Static |
-| `/app/history` | Static |
-| `/app/insights` | Static |
-| `/app/news` | Static |
-| `/app/performance` | Static |
-| `/app/recommendations` | Static |
-| `/app/scanner` | Static |
-| `/app/settings` | Static |
-| `/app/simulation` | Static |
-| `/app/strategies` | Static |
-| `/app/strategies/cyclical` | Static |
-| `/app/strategies/support-resistance` | Static |
-
-## Files Modified for Deployment
-1. **`frontend/next.config.ts`** — Removed `allowedDevOrigins` + `turbopack.root`, removed `eslint` option (not supported in Next.js 16)
-2. **`frontend/src/lib/api.ts`** — Changed hardcoded `API_BASE` to use `process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"`
-3. **`frontend/.env.local`** — Updated to use `NEXT_PUBLIC_API_URL` env var
-4. **`frontend/vercel.json`** — Created with framework + build settings
-5. **`frontend/.vercel/`** — Linked to Vercel project (do not commit)
+| `/` | Landing page |
+| `/login` | Auth |
+| `/signup` | Auth |
+| `/pricing` | Pricing |
+| `/app` | Dashboard |
+| `/app/analysis` | Protected |
+| `/app/analysis/[id]` | Protected |
+| `/app/backtest` | Protected |
+| `/app/charts` | Protected |
+| `/app/history` | Protected |
+| `/app/insights` | Protected |
+| `/app/news` | Protected |
+| `/app/performance` | Protected |
+| `/app/recommendations` | Protected |
+| `/app/scanner` | Protected |
+| `/app/settings` | Protected |
+| `/app/simulation` | Protected |
+| `/app/strategies` | Protected |
+| `/app/strategies/cyclical` | Protected |
+| `/app/strategies/support-resistance` | Protected |
 
 ## Environment Variables (Vercel Dashboard)
-| Variable | Value | Scope |
-|----------|-------|-------|
-| `NEXT_PUBLIC_API_URL` | `https://PLACEHOLDER-backend-url.vercel.app` | Production |
+| Variable | Status |
+|----------|--------|
+| `NEXT_PUBLIC_API_URL` | ⚠️ Set to placeholder — needs backend URL |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ Set |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Set |
+| `NEXT_PUBLIC_RAZORPAY_KEY_ID` | ✅ Set |
 
-**Action Required:** Update `NEXT_PUBLIC_API_URL` in Vercel dashboard with actual Railway/backend URL before going live.
+## Files Modified for Deployment
+1. `frontend/next.config.ts` — Removed turbopack/dev origins config
+2. `frontend/src/lib/api.ts` — Uses `NEXT_PUBLIC_API_URL` env var
+3. `frontend/.env.local` — API + Supabase + Razorpay vars
+4. `frontend/vercel.json` — Framework settings
 
-## Vercel CLI Setup
-- Token: stored locally (do not commit)
-- Project ID: `prj_EPbtVj2vPIqev740hXIHeTieMwr3`
-- Team: `manthans-projects-bbf5757d`
-- Command: `vercel deploy --token <token> --yes --public`
-
-## Known Issues / Notes
-- Deployment protection was enabled by default (Vercel team SSO). Disabled manually via Vercel dashboard.
-- Backend is NOT yet deployed — frontend will show connection errors until Railway backend is deployed and `NEXT_PUBLIC_API_URL` is updated.
-- This is a preview deployment. Production deployment: `vercel --prod`
-- ESLint warnings during build — harmless, build succeeds.
+## Known Issues
+- Backend NOT yet deployed — `NEXT_PUBLIC_API_URL` needs actual Render backend URL
+- Landing page pricing shows ₹2,999 Monthly (should be ₹999 Premium) — pending fix
+- Landing CTA buttons link to `/app?upgrade=monthly` (should be `/app?upgrade=premium`) — pending fix
 
 ## Next Steps
-1. Deploy Railway backend → get production URL
+1. Deploy Render backend → get URL
 2. Update `NEXT_PUBLIC_API_URL` in Vercel dashboard
-3. Add Supabase keys (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) for Phase 2 auth
-4. Add `NEXT_PUBLIC_RAZORPAY_KEY_ID` for Phase 3 payments
-5. Deploy to production: `vercel --prod --token <token>`
+3. Fix pricing alignment (landing page + types.ts)
+4. Deploy to production: `vercel --prod`
 
-## Useful Commands
-```bash
-# Preview deploy
-vercel deploy --token vcp_... --yes --public
+---
 
-# Production deploy
-vercel --prod --token vcp_...
-
-# Add env var
-vercel env add NEXT_PUBLIC_API_URL production --token vcp_...
-
-# Link project
-vercel link --token vcp_... --project marketdesk-india
-```
+*Last updated: 2026-05-01*

@@ -1,89 +1,65 @@
-# Railway Deployment Guide
+# Backend Deployment — Render
 
-## Step 1: Install Railway CLI
+**Primary deployment target.** Railway (`railway.json`) is backup.
 
-```bash
-# Option A: via npm
-npm install -g @railway/cli
+## Prerequisites
+- GitHub account connected to this repo
+- Render account (free tier works)
 
-# Option B: via curl (Linux)
-curl -fsSL https://railway.app/install.sh | sh
-```
+## Step 1: Create Render Project
 
-## Step 2: Login to Railway
+1. Go to https://render.com → **New** → **Blueprint**
+2. Connect GitHub → select `marketdesk-india` repo
+3. Render auto-detects `render.yaml` → click **Apply**
 
-```bash
-railway login
-```
+## Step 2: Configure Environment Variables
 
-This opens browser → authenticate → done.
-
-## Step 3: Create Railway Project
-
-```bash
-# Navigate to project
-cd ~/marketdesk-india
-
-# Initialize Railway (connects to GitHub repo)
-railway init
-# Select: GitHub → marketdesk-india repo
-```
-
-Or do it via dashboard:
-1. Go to https://railway.app
-2. Click **New Project** → **Deploy from GitHub repo**
-3. Select `marketdesk-india` repo
-4. Select **backend** directory (if monorepo) or root
-
-## Step 4: Configure Environment Variables
-
-In Railway dashboard → Project → Variables:
+In Render dashboard → Service → **Environment** tab:
 
 ```env
+# LLM Provider (Groq — free, no credit card)
+GROQ_API_KEY=your_groq_api_key
+
 # Supabase
 SUPABASE_URL=https://vnupihfbbtvbxsdvxzts.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 SUPABASE_JWT_SECRET=your_jwt_secret
 
-# Anthropic (for AI analysis)
-ANTHROPIC_API_KEY=sk-ant-...
+# Razorpay (Phase 3)
+RAZORPAY_KEY_ID=your_key_id
+RAZORPAY_KEY_SECRET=your_key_secret
+RAZORPAY_WEBHOOK_SECRET=your_webhook_secret
 
-# Optional
-OPENAI_API_KEY=sk-...
-GOOGLE_API_KEY=...
-ALPHA_VANTAGE_API_KEY=...
+# App
+TRADINGAGENTS_HOME=/var/data/tradingagents
 ```
 
-## Step 5: Set Start Command
+## Step 3: Deploy
 
-Railway already has `railway.json` with:
-- Start: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
-- Port: 8000
+Render auto-builds from `render.yaml`:
+- **Build:** `pip install -r requirements.txt`
+- **Start:** `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
+- **Health check:** `GET /api/health`
+- **Runtime:** Python 3.12
+- **Region:** Singapore (closest to India)
 
-## Step 6: Deploy
+Manual deploy: `git push` to main branch.
 
-```bash
-railway up
+## Step 4: Get Backend URL
+
+After deploy, Render gives URL like:
+```
+https://indian-trading-agent.onrender.com
 ```
 
-Or push to GitHub and Railway auto-deploys.
+## Step 5: Connect to Frontend
 
-## Step 7: Get Backend URL
-
-After deploy, Railway gives URL:
-```
-https://marketdesk-india.up.railway.app
-```
-
-## Step 8: Connect to Frontend
-
-1. Go to Vercel Dashboard → marketdesk-india project
-2. Settings → Environment Variables
-3. Add:
+1. **Vercel dashboard** → marketdesk-india project → **Settings** → **Environment Variables**
+2. Update:
    ```
-   NEXT_PUBLIC_API_URL=https://marketdesk-india.up.railway.app
+   NEXT_PUBLIC_API_URL=https://indian-trading-agent.onrender.com
    ```
-4. Redeploy frontend
+3. **Redeploy** frontend (trigger via git push or Vercel dashboard)
 
 ---
 
@@ -91,22 +67,47 @@ https://marketdesk-india.up.railway.app
 
 | Item | Value |
 |------|-------|
-| Railway CLI | `railway login` → `railway up` |
-| Backend Port | 8000 |
-| Start Command | `uvicorn backend.app:app --host 0.0.0.0 --port $PORT` |
-| Supabase Project | vnupihfbbtvbxsdvxzts |
+| Blueprint file | `render.yaml` (root) |
+| Build command | `pip install -r requirements.txt` |
+| Start command | `uvicorn backend.app:app --host 0.0.0.0 --port $PORT` |
+| Port | $PORT (Render sets this) |
+| Health check | `/api/health` |
+| Supabase Project | `vnupihfbbtvbxsdvxzts` |
+| LLM | Groq (GROQ_API_KEY) |
+
+## Backup: Railway Deployment
+
+If Render doesn't work, use Railway:
+```bash
+railway login
+cd ~/marketdesk-india
+railway init
+railway up
+```
+Then set same env vars in Railway dashboard.
+
+Railway gives URL like: `https://marketdesk-india.up.railway.app`
+
+---
 
 ## Troubleshooting
 
 ### "Cannot find app"
-Make sure Railway points to `backend/app.py` or set root directory.
+Ensure Render points to root directory (not `backend/` subdirectory). The `render.yaml` is at root and references `backend.app:app`.
 
 ### CORS errors
-Backend has CORS configured for all origins (dev mode). For production, restrict in `backend/app.py`.
+Backend `app.py` has CORS for `http://localhost:3000`. Add your Render backend URL to `allow_origins` in `backend/app.py`:
+```python
+allow_origins=[
+    "http://localhost:3000",
+    "https://marketdesk-india.vercel.app",
+    "https://indian-trading-agent.onrender.com",  # Add this
+]
+```
 
 ### Environment variables not loading
-Check Railway dashboard → Variables tab. Must match exact names in code.
+Double-check exact names in Render dashboard match code references. Case-sensitive.
 
 ---
 
-**Need help?** Share Railway project URL when created.
+*Last updated: 2026-05-01*

@@ -80,8 +80,8 @@ const tiers = [
     highlight: true,
   },
   {
-    name: "Monthly",
-    price: "₹2,999",
+    name: "Premium",
+    price: "₹999",
     period: "per month",
     description: "Full power for serious traders and investors.",
     features: [
@@ -89,10 +89,10 @@ const tiers = [
       "Unlimited requests",
       "Telegram alerts (new)",
       "Email alerts (new)",
-      "Dedicated support",
+      "Priority support",
     ],
-    cta: "Go Monthly",
-    href: "/app?upgrade=monthly",
+    cta: "Go Premium",
+    href: "/app?upgrade=premium",
     highlight: false,
   },
 ];
