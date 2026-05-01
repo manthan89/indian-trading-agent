@@ -1,33 +1,57 @@
-# render.yaml — Render Blueprints for Indian Trading Agent Backend
+# render.yaml — Render Blueprints for Indian Trading Agent
 # Docs: https://render.com/docs/blueprint-spec
 
 # ----------------------------------------
 # Web Service: FastAPI Backend
 # ----------------------------------------
 services:
-  - type: web
-    name: indian-trading-agent
-    runtime: python
-    region: singapore  # closest to India
-    plan: free
-    buildCommand: |
-      pip install -r requirements.txt
-    startCommand: |
-      uvicorn backend.app:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/health
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.12"
-      # Groq LLM (set via dashboard — do not commit keys)
-      - key: GROQ_API_KEY
-        sync: false
-      # Supabase
-      - key: SUPABASE_URL
-        value: https://vnupihfbbtvbxsdvxzts.supabase.co
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
-      - key: SUPABASE_JWT_SECRET
-        sync: false
-      # Trading Agent
-      - key: TRADINGAGENTS_HOME
-        value: /var/data/tradingagents
+- type: web
+  name: indian-trading-agent
+  runtime: python
+  region: singapore # closest to India
+  plan: free
+  buildCommand: |
+    pip install -r requirements.txt
+  startCommand: |
+    uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+  healthCheckPath: /api/health
+  envVars:
+  - key: PYTHON_VERSION
+    value: "3.12"
+  # Groq LLM (set via dashboard — do not commit keys)
+  - key: GROQ_API_KEY
+    sync: false
+  # Supabase
+  - key: SUPABASE_URL
+    value: https://vnupihfbbtvbxsdvxzts.supabase.co
+  - key: SUPABASE_SERVICE_ROLE_KEY
+    sync: false
+  - key: SUPABASE_JWT_SECRET
+    sync: false
+  # Trading Agent
+  - key: TRADINGAGENTS_HOME
+    value: /var/data/tradingagents
+
+# ----------------------------------------
+# Web Service: Next.js Frontend
+# ----------------------------------------
+- type: web
+  name: indian-trading-agent-frontend
+  runtime: node
+  region: singapore
+  plan: free
+  buildCommand: |
+    cd frontend && npm install && npm run build
+  startCommand: |
+    cd frontend && npm run start
+  envVars:
+  - key: NODE_VERSION
+    value: "20"
+  - key: NEXT_PUBLIC_API_URL
+    value: https://indian-trading-agent.onrender.com
+  - key: NEXT_PUBLIC_SUPABASE_URL
+    value: https://vnupihfbbtvbxsdvxzts.supabase.co
+  - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZudXBpaGZiYnR2YnhzZHZ4enRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDMzMDYsImV4cCI6MjA5MzExOTMwNn0.Y-p1fShiMANxXUemZ4jMTn8iDhLDXRfPJmlH9KMSV2w
+  - key: NEXT_PUBLIC_RAZORPAY_KEY_ID
+    value: ""
