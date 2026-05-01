@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { TIER_LIMITS, PLAN_PRICES } from "@/lib/supabase/types";
 import Link from "next/link";
+import { PricingCheckoutButton } from "@/components/pricing/PricingCheckoutButton";
 
 const tiers = [
   {
@@ -104,16 +105,19 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <Link
-                  href={tier.key === "free" ? "/signup" : "/signup?plan=" + tier.key}
-                  className={`block w-full rounded-md px-4 py-2 text-center text-sm font-medium transition-colors ${
-                    tier.popular
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "bg-slate-900 text-white hover:bg-slate-800"
-                  }`}
-                >
-                  {tier.cta}
-                </Link>
+                {tier.key === "free" ? (
+                  <Link
+                    href="/signup"
+                    className="block w-full rounded-md bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-slate-800"
+                  >
+                    {tier.cta}
+                  </Link>
+                ) : (
+                  <PricingCheckoutButton
+                    plan={tier.key as "pro" | "premium"}
+                    price={tier.price}
+                  />
+                )}
               </CardContent>
             </Card>
           ))}
@@ -121,7 +125,7 @@ export default function PricingPage() {
 
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground">
-            All plans include a 7-day free trial for Pro and Premium.
+            Secure payments powered by Razorpay.
             <br />
             Cancel anytime. No questions asked.
           </p>
