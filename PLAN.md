@@ -45,7 +45,7 @@ yfinance + RSS feeds (NSE/BSE data + news)
 - WebSocket streaming for analysis
 
 ### Deployment
-- Vercel frontend: https://marketdesk-india.vercel.app
+- Vercel frontend: https://indian-trading-agent.vercel.app
 - Render blueprint: render.yaml (ready to deploy)
 - Railway backup: railway.json
 

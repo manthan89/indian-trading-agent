@@ -34,7 +34,7 @@
   - ⚠️ MISSING: subscriptions, razorpay_payments, api_keys, audit_log tables
 
 ### Deployment
-- Vercel frontend: `https://marketdesk-india.vercel.app` ✅
+- Vercel frontend: `https://indian-trading-agent.vercel.app` ✅
 - Render backend: `render.yaml` ready (not yet deployed) ✅
 - Railway backup: `railway.json` ready ✅
 

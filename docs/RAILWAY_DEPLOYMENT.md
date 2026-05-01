@@ -100,7 +100,7 @@ Backend `app.py` has CORS for `http://localhost:3000`. Add your Render backend U
 ```python
 allow_origins=[
     "http://localhost:3000",
-    "https://marketdesk-india.vercel.app",
+    "https://indian-trading-agent.vercel.app",
     "https://indian-trading-agent.onrender.com",  # Add this
 ]
 ```

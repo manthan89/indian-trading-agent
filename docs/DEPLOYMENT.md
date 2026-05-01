@@ -7,7 +7,7 @@
 - **Framework:** Next.js 16.2.3 (App Router, React 19)
 
 ## Live URL
-**https://marketdesk-india.vercel.app**
+**https://indian-trading-agent.vercel.app**
 
 ## Pages Deployed (19 routes)
 | Route | Type |

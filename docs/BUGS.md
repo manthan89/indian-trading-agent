@@ -36,7 +36,7 @@
 ### P6 — Backend CORS Missing Vercel Domain (LOW)
 - **Severity:** LOW — production deployment will fail
 - **File:** `backend/app.py`
-- ~~**Issue:** `allow_origins` doesn't include `https://marketdesk-india.vercel.app`~~ ✅ Fixed (backend/app.py)
+- ~~**Issue:** `allow_origins` doesn't include `https://indian-trading-agent.vercel.app`~~ ✅ Fixed (backend/app.py)
 - **Fix:** Add Vercel domain to CORS list
 
 ### P7 — Env Files Not Gitignored (LOW/SECURITY)

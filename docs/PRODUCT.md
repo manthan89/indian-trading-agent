@@ -23,7 +23,7 @@ Full working product with 13 app pages + auth system. Being converted to SaaS wi
 | Premium | ₹999/mo | All Pro + Alerts, Telegram Bot, Priority |
 
 ### Live URLs
-- **Frontend:** https://marketdesk-india.vercel.app
+- **Frontend:** https://indian-trading-agent.vercel.app
 - **Backend:** NOT YET DEPLOYED (blocking)
 
 ---
