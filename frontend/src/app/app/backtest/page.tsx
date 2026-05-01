@@ -12,8 +12,34 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Play, TrendingUp, TrendingDown, Target, AlertTriangle } from "lucide-react";
 import { HelpSection } from "@/components/HelpSection";
 import { backtestHelp } from "@/lib/help-content";
+import { useAuthStore } from "@/lib/store-auth";
+import { UpgradePrompt } from "@/components/auth/TierGate";
 
 export default function BacktestPage() {
+  const { profile } = useAuthStore();
+  const userTier = profile?.subscription_tier ?? "free";
+
+  if (userTier === "free") {
+    return (
+      <div className="p-6 space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold">Backtest</h1>
+          <p className="text-sm text-muted-foreground">
+            Run the AI agent on historical dates and measure P&L accuracy
+          </p>
+        </div>
+        <UpgradePrompt
+          requiredTier="pro"
+          featureName="AI Backtest"
+        />
+      </div>
+    );
+  }
+
+  return <BacktestPageInner />;
+}
+
+function BacktestPageInner() {
   const [ticker, setTicker] = useState("RELIANCE");
   const [startDate, setStartDate] = useState("2025-03-01");
   const [endDate, setEndDate] = useState("2025-04-10");
