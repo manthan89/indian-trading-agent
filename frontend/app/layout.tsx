@@ -1,19 +1,16 @@
-import "@/app/globals.css";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { Toaster } from "sonner";
+import { NavBar } from "@/components/landing/NavBar";
 
-export default function AppLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1 ml-64 min-h-screen bg-background">
+    <>
+      <NavBar />
+      <main className="pt-16">
         {children}
-      </div>
-      <Toaster position="bottom-right" />
-    </div>
+      </main>
+    </>
   );
 }
